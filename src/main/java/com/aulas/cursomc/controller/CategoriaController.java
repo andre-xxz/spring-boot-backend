@@ -13,7 +13,7 @@ import java.util.List;
 public class CategoriaController {
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Categoria> listar(){
+    public List<Categoria> listar() {
 
         Categoria cat1 = new Categoria(1, "Informatica");
         Categoria cat2 = new Categoria(2, "Escritorio");
@@ -24,9 +24,6 @@ public class CategoriaController {
 
         return lista;
     }
-
-    
-
 
 
 }
