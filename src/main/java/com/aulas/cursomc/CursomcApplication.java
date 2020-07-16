@@ -1,8 +1,12 @@
 package com.aulas.cursomc;
 
 import com.aulas.cursomc.domain.Categoria;
+import com.aulas.cursomc.domain.Cidade;
+import com.aulas.cursomc.domain.Estado;
 import com.aulas.cursomc.domain.Produto;
 import com.aulas.cursomc.repositories.CategoriaRepository;
+import com.aulas.cursomc.repositories.CidadeRepository;
+import com.aulas.cursomc.repositories.EstadoRepository;
 import com.aulas.cursomc.repositories.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -14,37 +18,56 @@ import java.util.Arrays;
 @SpringBootApplication
 public class CursomcApplication implements CommandLineRunner {
 
-	@Autowired
-	public CategoriaRepository categoriaRepository;
+    @Autowired
+    public CategoriaRepository categoriaRepository;
 
-	@Autowired
-	public ProdutoRepository produtoRepository;
+    @Autowired
+    public ProdutoRepository produtoRepository;
 
-	public static void main(String[] args) {
-		SpringApplication.run(CursomcApplication.class, args);
-	}
+    @Autowired
+    public EstadoRepository estadoRepository;
 
-	@Override
-	public void run(String... args) throws Exception {
-		Categoria cat1 = new Categoria(null, "Informatica");
-		Categoria cat2 = new Categoria(null, "Escritorio");
+    @Autowired
+    public CidadeRepository cidadeRepository;
 
-		Produto p1 = new Produto(null, "Computador", 2000.00);
-		Produto p2 = new Produto(null, "Impressora", 800.00);
-		Produto p3 = new Produto(null, "Mouse", 80.00);
+    public static void main(String[] args) {
+        SpringApplication.run(CursomcApplication.class, args);
+    }
 
-		cat1.getProdutos().addAll(Arrays.asList(p1,p2,p3));
-		cat2.getProdutos().addAll(Arrays.asList(p2));
+    @Override
+    public void run(String... args) throws Exception {
+        Categoria cat1 = new Categoria(null, "Informatica");
+        Categoria cat2 = new Categoria(null, "Escritorio");
 
-		p1.getCategorias().addAll(Arrays.asList(cat1));
-		p2.getCategorias().addAll(Arrays.asList(cat1, cat2));
-		p3.getCategorias().addAll(Arrays.asList(cat1));
+        Produto p1 = new Produto(null, "Computador", 2000.00);
+        Produto p2 = new Produto(null, "Impressora", 800.00);
+        Produto p3 = new Produto(null, "Mouse", 80.00);
 
-		categoriaRepository.saveAll(Arrays.asList(cat1,cat2));
-		produtoRepository.saveAll(Arrays.asList(p1, p2, p3));
+        cat1.getProdutos().addAll(Arrays.asList(p1, p2, p3));
+        cat2.getProdutos().addAll(Arrays.asList(p2));
 
-	}
-	//TEST
+        p1.getCategorias().addAll(Arrays.asList(cat1));
+        p2.getCategorias().addAll(Arrays.asList(cat1, cat2));
+        p3.getCategorias().addAll(Arrays.asList(cat1));
+
+        categoriaRepository.saveAll(Arrays.asList(cat1, cat2));
+        produtoRepository.saveAll(Arrays.asList(p1, p2, p3));
+
+        Estado est1 = new Estado(null, "Minas Gerais");
+        Estado est2 = new Estado(null, "São Paulo");
+
+        Cidade c1 = new Cidade(null, "Uberlandia", est1);
+        Cidade c2 = new Cidade(null, "Sao Paulo", est2);
+        Cidade c3 = new Cidade(null, "Campinas", est2);
+
+        est1.getCidades().addAll(Arrays.asList(c1));
+        est2.getCidades().addAll(Arrays.asList(c2, c3));
+
+        estadoRepository.saveAll(Arrays.asList(est1, est2));
+        cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
+
+    }
+    //TEST
 
 
 }
