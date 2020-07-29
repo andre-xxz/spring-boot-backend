@@ -1,0 +1,27 @@
+package com.aulas.cursomc.controller;
+
+import com.aulas.cursomc.domain.Cliente;
+import com.aulas.cursomc.services.ClienteService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping(value = "/clientes")
+public class ClienteController {
+
+
+    //AULA 21 ENDPOINT CLIENTESID DISPONIVEL - 04:16
+    @Autowired
+    private ClienteService clienteService;
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> findClienteById(@PathVariable Integer id) {
+        Cliente obj = clienteService.findClienteById(id);
+        return ResponseEntity.ok().body(obj);
+    }
+
+}
