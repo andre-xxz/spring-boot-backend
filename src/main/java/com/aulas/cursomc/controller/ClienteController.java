@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/clientes")
 public class ClienteController {
 
-
-    //AULA 21 ENDPOINT CLIENTESID DISPONIVEL - 04:16
     @Autowired
     private ClienteService clienteService;
 

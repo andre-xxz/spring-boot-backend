@@ -28,12 +28,13 @@ public class Pedido implements Serializable {
     private Date instante;
     @Getter
     @Setter
-    @JsonManagedReference
+    //@JsonManagedReference
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
     private Pagamento pagamento;
     @Getter
     @Setter
-    @JsonManagedReference //os pedidos veem os clientes, mas os clientes nao veem os pedidos
+
+    //@JsonManagedReference //os pedidos veem os clientes, mas os clientes nao veem os pedidos
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;

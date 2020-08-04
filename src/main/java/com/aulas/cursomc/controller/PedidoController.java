@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
 @RequestMapping(value = "/pedidos")
 public class PedidoController {
 
+    //TODO: VER POR QUE O ENDPOINT /pedidos tras 404
     @Autowired
     private PedidoService pedidoService;
 
