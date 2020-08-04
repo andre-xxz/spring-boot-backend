@@ -6,9 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 public class Produto implements Serializable {
@@ -38,6 +36,11 @@ public class Produto implements Serializable {
     )
     private List <Categoria> categorias = new ArrayList<>();
 
+    @Getter
+    @Setter
+    @OneToMany(mappedBy = "id.produto")
+    private Set<ItemPedido> itens = new HashSet<>();
+
     public Produto(){
 
     }
@@ -46,6 +49,14 @@ public class Produto implements Serializable {
         this.id = id;
         this.nome = nome;
         this.preco = preco;
+    }
+
+    public List<Pedido> getPedidos(){
+        List<Pedido> lista = new ArrayList<>();
+        for(ItemPedido x: itens){ //todos os ItemPedido x na minha lista de itens
+            lista.add(x.getPedido()); // adiciona o pedido na lista
+        }
+        return lista;
     }
 
     @Override
