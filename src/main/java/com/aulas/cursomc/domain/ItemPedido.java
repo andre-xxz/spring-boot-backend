@@ -1,5 +1,6 @@
 package com.aulas.cursomc.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,6 +15,7 @@ public class ItemPedido implements Serializable {
 
     @Getter
     @Setter
+    @JsonIgnore //nao serializa nem o pedido, nem o produto
     @EmbeddedId
     private ItemPedidoPK id = new ItemPedidoPK();
     @Getter
@@ -26,6 +28,7 @@ public class ItemPedido implements Serializable {
     @Setter
     private Double preco;
 
+    @JsonIgnore //para nao serializar e dar referencia ciclica
     public Pedido getPedido(){
         return id.getPedido();
     }
@@ -33,6 +36,9 @@ public class ItemPedido implements Serializable {
     public Produto getProduto(){
         return id.getProduto();
     }
+
+
+
     public ItemPedido(){
 
     }

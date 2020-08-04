@@ -1,6 +1,7 @@
 package com.aulas.cursomc.domain;
 
 import com.aulas.cursomc.domain.enums.TipoCliente;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
@@ -47,6 +48,7 @@ public class Cliente implements Serializable {
 
     @Getter
     @Setter
+    @JsonBackReference
     @OneToMany(mappedBy = "cliente")
     private List<Pedido> pedidos = new ArrayList<>();
 

@@ -1,6 +1,7 @@
 package com.aulas.cursomc.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -38,6 +39,7 @@ public class Produto implements Serializable {
 
     @Getter
     @Setter
+    @JsonIgnore
     @OneToMany(mappedBy = "id.produto")
     private Set<ItemPedido> itens = new HashSet<>();
 
@@ -51,6 +53,7 @@ public class Produto implements Serializable {
         this.preco = preco;
     }
 
+    @JsonIgnore // para nao serializar a lista de pedidos
     public List<Pedido> getPedidos(){
         List<Pedido> lista = new ArrayList<>();
         for(ItemPedido x: itens){ //todos os ItemPedido x na minha lista de itens

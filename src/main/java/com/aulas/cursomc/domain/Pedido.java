@@ -1,6 +1,7 @@
 package com.aulas.cursomc.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,13 +24,16 @@ public class Pedido implements Serializable {
     private Integer id;
     @Getter
     @Setter
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private Date instante;
     @Getter
     @Setter
+    @JsonManagedReference
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
     private Pagamento pagamento;
     @Getter
     @Setter
+    @JsonManagedReference //os pedidos veem os clientes, mas os clientes nao veem os pedidos
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;

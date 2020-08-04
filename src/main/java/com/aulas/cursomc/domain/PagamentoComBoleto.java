@@ -1,6 +1,7 @@
 package com.aulas.cursomc.domain;
 
 import com.aulas.cursomc.domain.enums.EstadoPagamento;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,9 +13,11 @@ public class PagamentoComBoleto extends Pagamento {
     private static final long serialVersionUID = 1L;
     @Getter
     @Setter
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private Date dataVencimento;
     @Getter
     @Setter
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private Date dataPagamento;
 
     public PagamentoComBoleto(){
