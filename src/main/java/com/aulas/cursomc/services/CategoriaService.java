@@ -14,26 +14,20 @@ public class CategoriaService {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
-    //SPRING 1.X
-//    public Categoria findCategoriaById(Integer id) {
-//        Optional<Categoria> obj = categoriaRepository.findById(id);
-//        if(obj.equals(null)){
-//            throw new ObjectNotFoundException("Objeto nao encontrado ! "+"ID: "+id+ " tipo:"+ Categoria.class.getName());
-//        }
-//
-//        //return obj;
-//        //  return obj.orElse(null);
-//    }
-    //SPRING 2.X
     public Categoria findCategoriaById(Integer id) {
         Optional<Categoria> obj = categoriaRepository.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(
                 "Objeto não encontrado LMAO!  ID:" + id + ", Tipo: "+Categoria.class.getName()));
     }
 
-    public Categoria insert(Categoria obj){
-        obj.setId(null);
-        return categoriaRepository.save(obj);
+    public Categoria insertCategoria(Categoria categoria){
+        categoria.setId(null);
+        return categoriaRepository.save(categoria);
     }
 
+    public Categoria updateCategoria(Categoria categoria){
+        findCategoriaById(categoria.getId());
+
+        return categoriaRepository.save(categoria);
+    }
 }

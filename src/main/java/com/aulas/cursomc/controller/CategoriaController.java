@@ -17,19 +17,23 @@ public class CategoriaController {
     private CategoriaService categoriaService;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> findCategoriaById(@PathVariable Integer id) {
-
-        Categoria obj = categoriaService.findCategoriaById(id);
+    public ResponseEntity<Categoria> findCategoriaById(@PathVariable Integer id) { //tambem pode utilizar sem especificar o retorno, como ResponseEntity<?>
+            Categoria obj = categoriaService.findCategoriaById(id);
         return ResponseEntity.ok().body(obj);
-
     }
 
     @RequestMapping(method=RequestMethod.POST)
-    public ResponseEntity<Void> insert(@RequestBody Categoria obj){
-        obj = categoriaService.insert(obj);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+    public ResponseEntity<Void> insertCategoria(@RequestBody Categoria categoria){
+        categoria = categoriaService.insertCategoria(categoria);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(categoria.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
+    @RequestMapping(value="/{id}" ,method = RequestMethod.PUT)
+    public ResponseEntity<Void> updateCategoria(@RequestBody Categoria categoria, @PathVariable Integer id){
+        categoria.setId(id); //apenas para garantir que eh esse o id recebido pelo end-point
+        categoria = categoriaService.updateCategoria(categoria);
+        return ResponseEntity.noContent().build();
+    }
 
 }
