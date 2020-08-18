@@ -36,4 +36,11 @@ public class CategoriaController {
         return ResponseEntity.noContent().build();
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Void> deleteCategoria(@PathVariable Integer id) { //tambem pode utilizar sem especificar o retorno, como ResponseEntity<?>
+        categoriaService.deleteCategoria(id);
+        return ResponseEntity.noContent().build();
+    }
+
+
 }
