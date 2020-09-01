@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,15 +48,16 @@ public class CategoriaController {
     }
 
     @RequestMapping(method=RequestMethod.POST)
-    public ResponseEntity<Void> insertCategoria(@RequestBody Categoria categoria){
-        categoria = categoriaService.insertCategoria(categoria);
+    public ResponseEntity<Void> insertCategoria(@Valid @RequestBody CategoriaDTO categoriaDto){
+        Categoria categoria = categoriaService.fromDTO(categoriaDto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(categoria.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
     @RequestMapping(value="/{id}" ,method = RequestMethod.PUT)
-    public ResponseEntity<Void> updateCategoria(@RequestBody Categoria categoria, @PathVariable Integer id){
-        categoria.setId(id); //apenas para garantir que eh esse o id recebido pelo end-point
+    public ResponseEntity<Void> updateCategoria(@Valid @RequestBody CategoriaDTO categoriaDto, @PathVariable Integer id){
+        Categoria categoria = categoriaService.fromDTO(categoriaDto);
+        categoria.setId(id);
         categoria = categoriaService.updateCategoria(categoria);
         return ResponseEntity.noContent().build();
     }

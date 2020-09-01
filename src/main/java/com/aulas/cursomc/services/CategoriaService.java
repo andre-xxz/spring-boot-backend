@@ -1,6 +1,7 @@
 package com.aulas.cursomc.services;
 
 import com.aulas.cursomc.domain.Categoria;
+import com.aulas.cursomc.dto.CategoriaDTO;
 import com.aulas.cursomc.repositories.CategoriaRepository;
 import com.aulas.cursomc.services.exceptions.DataIntegrityException;
 import com.aulas.cursomc.services.exceptions.ObjectNotFoundException;
@@ -57,4 +58,8 @@ public class CategoriaService {
         PageRequest pageRequest = PageRequest.of(page,linesPerPage, Sort.Direction.valueOf(direction), orderBy);
         return categoriaRepository.findAll(pageRequest);
     }
+    public Categoria fromDTO(CategoriaDTO categoriaDTO){ //para adaptar a controller para receber uma DTO ao inves da classe em si
+        return new Categoria(categoriaDTO.getId(), categoriaDTO.getNome());
+    }
+
 }
