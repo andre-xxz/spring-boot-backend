@@ -1,6 +1,7 @@
 package com.aulas.cursomc.controller;
 
 import com.aulas.cursomc.domain.Categoria;
+import com.aulas.cursomc.dto.CategoriaDTO;
 import com.aulas.cursomc.services.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/categorias")
@@ -15,6 +18,14 @@ public class CategoriaController {
 
     @Autowired
     private CategoriaService categoriaService;
+
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<List<CategoriaDTO>> findAllCategorias() { //tambem pode utilizar sem especificar o retorno, como ResponseEntity<?>
+        List<Categoria> listCategorias = categoriaService.findAllCategorias();
+        List<CategoriaDTO> listDto = listCategorias.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
+        return ResponseEntity.ok().body(listDto);
+    }
+
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Categoria> findCategoriaById(@PathVariable Integer id) { //tambem pode utilizar sem especificar o retorno, como ResponseEntity<?>
