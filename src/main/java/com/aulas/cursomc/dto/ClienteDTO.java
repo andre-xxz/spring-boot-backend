@@ -19,7 +19,7 @@ public class ClienteDTO implements Serializable {
     @Getter
     @Setter
     @NotEmpty(message = "Preenchimento obrigatório")
-    @Length(min=5, max=120, message = "O tamanho deve ser entre 5 e 120 caracteres")
+    @Length(min = 5, max = 120, message = "O tamanho deve ser entre 5 e 120 caracteres")
     private String nome;
     @Getter
     @Setter
@@ -29,7 +29,8 @@ public class ClienteDTO implements Serializable {
 
     public ClienteDTO() {
     }
-    public ClienteDTO(Cliente cliente){
+
+    public ClienteDTO(Cliente cliente) {
         id = cliente.getId();
         nome = cliente.getNome();
         email = cliente.getEmail();

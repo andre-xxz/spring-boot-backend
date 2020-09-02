@@ -23,13 +23,13 @@ public class ClienteService {
     @Autowired
     private ClienteRepository clienteRepository;
 
-    public Cliente findClienteById(Integer id){
+    public Cliente findClienteById(Integer id) {
         Optional<Cliente> obj = clienteRepository.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(
-                "Objeto cliente nao encontrado, id: "+id+" nome: "+Cliente.class.getName()));
+                "Objeto cliente nao encontrado, id: " + id + " nome: " + Cliente.class.getName()));
     }
 
-    public Cliente updateCliente(Cliente cliente){
+    public Cliente updateCliente(Cliente cliente) {
         Cliente newCliente = findClienteById(cliente.getId());
         updateData(newCliente, cliente);
         return clienteRepository.save(newCliente);
@@ -39,8 +39,7 @@ public class ClienteService {
         findClienteById(id);
         try {
             clienteRepository.deleteById(id);
-        }
-        catch (DataIntegrityViolationException e){
+        } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityException("Não é possivel excluir por que ha entidades relacionadas");
         }
     }
@@ -49,11 +48,12 @@ public class ClienteService {
         return clienteRepository.findAll();
     }
 
-    public Page<Cliente> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
-        PageRequest pageRequest = PageRequest.of(page,linesPerPage, Sort.Direction.valueOf(direction), orderBy);
+    public Page<Cliente> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
         return clienteRepository.findAll(pageRequest);
     }
-    public Cliente fromDTO(ClienteDTO clienteDTO){ //para adaptar a controller para receber uma DTO ao inves da classe em si
+
+    public Cliente fromDTO(ClienteDTO clienteDTO) { //para adaptar a controller para receber uma DTO ao inves da classe em si
 //        return new Cliente(clienteDTO.getId(), clienteDTO.getNome());
         //throw new UnsupportedOperationException();
         return new Cliente(clienteDTO.getId(), clienteDTO.getNome(), clienteDTO.getEmail(), null, null);

@@ -43,6 +43,7 @@ public class ClienteController {
         Page<ClienteDTO> listDto = listClientes.map(obj -> new ClienteDTO(obj)); //como Page ja vem no padrao Java8, nao precisa de stream/collect
         return ResponseEntity.ok().body(listDto);
     }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Void> updateCliente(@Valid @RequestBody ClienteDTO categoriaDto, @PathVariable Integer id) {
         Cliente categoria = clienteService.fromDTO(categoriaDto);

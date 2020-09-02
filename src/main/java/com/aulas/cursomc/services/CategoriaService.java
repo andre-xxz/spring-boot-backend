@@ -1,6 +1,7 @@
 package com.aulas.cursomc.services;
 
 import com.aulas.cursomc.domain.Categoria;
+import com.aulas.cursomc.domain.Cliente;
 import com.aulas.cursomc.dto.CategoriaDTO;
 import com.aulas.cursomc.repositories.CategoriaRepository;
 import com.aulas.cursomc.services.exceptions.DataIntegrityException;
@@ -26,26 +27,25 @@ public class CategoriaService {
     public Categoria findCategoriaById(Integer id) {
         Optional<Categoria> obj = categoriaRepository.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(
-                "Objeto não encontrado LMAO!  ID:" + id + ", Tipo: "+Categoria.class.getName()));
+                "Objeto não encontrado LMAO!  ID:" + id + ", Tipo: " + Categoria.class.getName()));
     }
 
-    public Categoria insertCategoria(Categoria categoria){
+    public Categoria insertCategoria(Categoria categoria) {
         categoria.setId(null);
         return categoriaRepository.save(categoria);
     }
 
-    public Categoria updateCategoria(Categoria categoria){
-        findCategoriaById(categoria.getId());
-
-        return categoriaRepository.save(categoria);
+    public Categoria updateCategoria(Categoria categoria) {
+        Categoria newCategoria = findCategoriaById(categoria.getId());
+        updateData(newCategoria, categoria);
+        return categoriaRepository.save(newCategoria);
     }
 
     public void deleteCategoria(Integer id) {
         findCategoriaById(id);
         try {
             categoriaRepository.deleteById(id);
-        }
-        catch (DataIntegrityViolationException e){
+        } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityException("Não é possivel excluir uma categoria que possua produtos");
         }
     }
@@ -54,12 +54,18 @@ public class CategoriaService {
         return categoriaRepository.findAll();
     }
 
-    public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
-        PageRequest pageRequest = PageRequest.of(page,linesPerPage, Sort.Direction.valueOf(direction), orderBy);
+    public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
         return categoriaRepository.findAll(pageRequest);
     }
-    public Categoria fromDTO(CategoriaDTO categoriaDTO){ //para adaptar a controller para receber uma DTO ao inves da classe em si
+
+    public Categoria fromDTO(CategoriaDTO categoriaDTO) { //para adaptar a controller para receber uma DTO ao inves da classe em si
         return new Categoria(categoriaDTO.getId(), categoriaDTO.getNome());
+    }
+
+
+    private void updateData(Categoria newCategoria, Categoria categoria) {
+        newCategoria.setNome(categoria.getNome());
     }
 
 }
