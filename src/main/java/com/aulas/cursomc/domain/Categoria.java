@@ -37,25 +37,6 @@ public class Categoria implements Serializable {
         this.nome = nome;
     }
 
-    //CODIGO INTELLIJ
-//
-//    @Override
-//    public int hashCode() {
-//        return super.hashCode();
-//    }
-//
-//    @Override
-//    public boolean equals(Object obj) {
-//        return super.equals(obj);
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return super.toString();
-//    }
-
-    /// CODIGO PROFESSOR
-
     @Override
     public int hashCode() {
         final int prime = 31;
