@@ -22,16 +22,15 @@ public class Cidade implements Serializable {
     @Getter
     @Setter
 
-    //@JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "estado_id")
     private Estado estado;
-    private Endereco endereco;
 
     public Cidade() {
     }
 
     public Cidade(Integer id, String nome, Estado estado) {
+        super();
         this.id = id;
         this.nome = nome;
         this.estado = estado;

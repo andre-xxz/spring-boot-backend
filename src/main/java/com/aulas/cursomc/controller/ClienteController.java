@@ -1,15 +1,20 @@
 package com.aulas.cursomc.controller;
 
+import com.aulas.cursomc.domain.Categoria;
 import com.aulas.cursomc.domain.Cliente;
 import com.aulas.cursomc.domain.Cliente;
+import com.aulas.cursomc.dto.CategoriaDTO;
 import com.aulas.cursomc.dto.ClienteDTO;
+import com.aulas.cursomc.dto.ClienteNewDTO;
 import com.aulas.cursomc.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,7 +32,7 @@ public class ClienteController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<ClienteDTO>> findAllClientes() { //busca categorias por DTO, trazendo apenas o id e nome
+    public ResponseEntity<List<ClienteDTO>> findAllClientes() {
         List<Cliente> listClientes = clienteService.findAllClientes();
         List<ClienteDTO> listDto = listClientes.stream().map(obj -> new ClienteDTO(obj)).collect(Collectors.toList());
         return ResponseEntity.ok().body(listDto);
@@ -44,11 +49,19 @@ public class ClienteController {
         return ResponseEntity.ok().body(listDto);
     }
 
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<Void> insertCliente(@Valid @RequestBody ClienteNewDTO clienteDto) {
+        Cliente cliente = clienteService.fromDTO(clienteDto);
+        cliente = clienteService.insertCliente(cliente);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(cliente.getId()).toUri();
+        return ResponseEntity.created(uri).build();
+    }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Void> updateCliente(@Valid @RequestBody ClienteDTO categoriaDto, @PathVariable Integer id) {
-        Cliente categoria = clienteService.fromDTO(categoriaDto);
-        categoria.setId(id);
-        categoria = clienteService.updateCliente(categoria);
+    public ResponseEntity<Void> updateCliente(@Valid @RequestBody ClienteDTO clienteDto, @PathVariable Integer id) {
+        Cliente cliente = clienteService.fromDTO(clienteDto);
+        cliente.setId(id);
+        cliente = clienteService.updateCliente(cliente);
         return ResponseEntity.noContent().build();
     }
 
