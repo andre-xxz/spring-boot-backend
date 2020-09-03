@@ -38,8 +38,7 @@ public class Cliente implements Serializable {
     private Integer tipo;
     @Getter
     @Setter
-    //@JsonManagedReference
-    @OneToMany(mappedBy = "cliente")
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL) // para poder deletar um cliente que possua um endereço (deleta enderecos em cascade)
     private List<Endereco> enderecos = new ArrayList<>();
     @Getter
     @Setter

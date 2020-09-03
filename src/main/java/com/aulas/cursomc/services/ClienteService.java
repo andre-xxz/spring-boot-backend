@@ -22,8 +22,6 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-//TODO: parei no 40, 16:31
-
 @Service
 public class ClienteService {
 
