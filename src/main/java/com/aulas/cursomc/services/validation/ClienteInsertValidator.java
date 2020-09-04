@@ -1,9 +1,12 @@
 package com.aulas.cursomc.services.validation;
 
 import com.aulas.cursomc.controller.exceptions.FieldMessage;
+import com.aulas.cursomc.domain.Cliente;
 import com.aulas.cursomc.domain.enums.TipoCliente;
 import com.aulas.cursomc.dto.ClienteNewDTO;
+import com.aulas.cursomc.repositories.ClienteRepository;
 import com.aulas.cursomc.services.validation.utils.BR;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +15,9 @@ import javax.validation.ConstraintValidatorContext;
 
 
 public class ClienteInsertValidator implements ConstraintValidator<ClienteInsert, ClienteNewDTO> {
+
+    @Autowired
+    private ClienteRepository clienteRepository;
 
     @Override
     public void initialize(ClienteInsert ann) {
@@ -31,6 +37,11 @@ public class ClienteInsertValidator implements ConstraintValidator<ClienteInsert
 
         if(objDto.getTipo() == null){
             list.add(new FieldMessage("tipo", "Tipo nao pode ser nulo"));
+        }
+
+        Cliente aux = clienteRepository.findByEmail(objDto.getEmail());
+        if(aux != null){
+            list.add(new FieldMessage("Email", "Email já existente."));
         }
 
         for (FieldMessage e : list) {
