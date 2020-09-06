@@ -33,7 +33,6 @@ public class Pedido implements Serializable {
     private Pagamento pagamento;
     @Getter
     @Setter
-
     //@JsonManagedReference //os pedidos veem os clientes, mas os clientes nao veem os pedidos
     @ManyToOne
     @JoinColumn(name = "cliente_id")
@@ -68,7 +67,7 @@ public class Pedido implements Serializable {
         }
         return soma;
     }
-    
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
