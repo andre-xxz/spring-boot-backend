@@ -43,7 +43,7 @@ public class PedidoService {
     public Pedido insertPedido(Pedido pedido) {
         pedido.setId(null);
         pedido.setInstante(new Date());
-        pedido.getPagamento().setEstado(EstadoPagamento.PENDENTE.getCod());
+        pedido.getPagamento().setEstado(EstadoPagamento.PENDENTE);
         pedido.getPagamento().setPedido(pedido);
         if(pedido.getPagamento() instanceof PagamentoComBoleto){
             PagamentoComBoleto pagto = (PagamentoComBoleto) pedido.getPagamento();

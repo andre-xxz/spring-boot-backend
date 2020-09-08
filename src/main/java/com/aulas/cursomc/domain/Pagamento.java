@@ -21,8 +21,6 @@ public abstract class Pagamento implements Serializable {
     @Setter
     @Id
     private Integer id;
-    @Getter
-    @Setter
     private Integer estado;
     @Getter
     @Setter
@@ -42,6 +40,14 @@ public abstract class Pagamento implements Serializable {
         this.id = id;
         this.estado = (estado == null) ? null : estado.getCod();
         this.pedido = pedido;
+    }
+
+    public EstadoPagamento getEstado(){
+        return EstadoPagamento.toEnum(estado);
+    }
+
+    public void setEstado(EstadoPagamento estado){
+        this.estado = estado.getCod();
     }
 
     @Override
