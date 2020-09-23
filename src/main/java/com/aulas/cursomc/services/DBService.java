@@ -102,6 +102,7 @@ public class DBService {
         estadoRepository.saveAll(Arrays.asList(est1, est2));
         cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
 
+        //TODO REMOVER O EMAIL
         Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "8293049323", TipoCliente.PESSOAFISICA);
         cli1.getTelefones().addAll(Arrays.asList("33790305", "999273363"));
 
