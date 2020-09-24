@@ -62,9 +62,8 @@ public class PedidoService {
             ip.setPedido(pedido);
         }
         itemPedidoRepository.saveAll(pedido.getItens());
-        //System.out.println(pedido);
-        emailService.sendOrderConfirmationEmail(pedido);
-
+        //emailService.sendOrderConfirmationEmail(pedido); //manda o email toString
+        emailService.sendOrderConfirmationHtmlEmail(pedido); //manda email html thymeleaf
         return pedido;
     }
 }
