@@ -39,6 +39,10 @@ public class Cliente implements Serializable {
     private Integer tipo;
     @Getter
     @Setter
+    @JsonIgnore
+    private String senha;
+    @Getter
+    @Setter
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL) // para poder deletar um cliente que possua um endereço (deleta enderecos em cascade)
     private List<Endereco> enderecos = new ArrayList<>();
     @Getter
@@ -59,12 +63,13 @@ public class Cliente implements Serializable {
 
     }
 
-    public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipo) {
+    public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipo, String senha) {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.cpfOuCnpj = cpfOuCnpj;
         this.tipo = (tipo == null) ? null : tipo.getCod();
+        this.senha = senha;
     }
 
     public TipoCliente getTipo() {

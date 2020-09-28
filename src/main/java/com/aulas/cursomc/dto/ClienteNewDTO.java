@@ -34,6 +34,10 @@ public class ClienteNewDTO implements Serializable {
     @Getter
     @Setter
     @NotEmpty(message = "Preenchimento obrigatório")
+    private String senha;
+    @Getter
+    @Setter
+    @NotEmpty(message = "Preenchimento obrigatório")
     private String logradouro;
     @Getter
     @Setter
