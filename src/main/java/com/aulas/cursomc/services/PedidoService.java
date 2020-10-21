@@ -3,8 +3,13 @@ package com.aulas.cursomc.services;
 import com.aulas.cursomc.domain.*;
 import com.aulas.cursomc.domain.enums.EstadoPagamento;
 import com.aulas.cursomc.repositories.*;
+import com.aulas.cursomc.security.UserSS;
+import com.aulas.cursomc.services.exceptions.AuthorizationException;
 import com.aulas.cursomc.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -66,4 +71,19 @@ public class PedidoService {
         emailService.sendOrderConfirmationHtmlEmail(pedido); //manda email html thymeleaf
         return pedido;
     }
+
+    public Page<Pedido> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
+        UserSS user = UserService.authenticated();
+        if(user == null){
+            throw new AuthorizationException("Acesso negasdo.");
+        }
+
+        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
+
+        Cliente cliente = clienteService.findClienteById(user.getId());
+
+        return pedidoRepository.findPedidoByCliente(cliente, pageRequest);
+    }
+
+
 }
