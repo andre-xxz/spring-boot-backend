@@ -3,14 +3,18 @@ package com.aulas.cursomc.services;
 import com.aulas.cursomc.domain.*;
 import com.aulas.cursomc.domain.Cliente;
 import com.aulas.cursomc.domain.Cidade;
+import com.aulas.cursomc.domain.enums.Perfil;
 import com.aulas.cursomc.domain.enums.TipoCliente;
 import com.aulas.cursomc.dto.ClienteDTO;
 import com.aulas.cursomc.dto.ClienteNewDTO;
 import com.aulas.cursomc.repositories.CidadeRepository;
 import com.aulas.cursomc.repositories.ClienteRepository;
 import com.aulas.cursomc.repositories.EnderecoRepository;
+import com.aulas.cursomc.security.UserSS;
+import com.aulas.cursomc.services.exceptions.AuthorizationException;
 import com.aulas.cursomc.services.exceptions.DataIntegrityException;
 import com.aulas.cursomc.services.exceptions.ObjectNotFoundException;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -36,6 +40,12 @@ public class ClienteService {
     private EnderecoRepository enderecoRepository;
 
     public Cliente findClienteById(Integer id) {
+
+        UserSS user = UserService.authenticated(); // usuario logado atualmente
+        if(user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+            throw new AuthorizationException("Acesso negado.");
+        }
+
         Optional<Cliente> obj = clienteRepository.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(
                 "Objeto cliente nao encontrado, id: " + id + " nome: " + Cliente.class.getName()));

@@ -1,5 +1,6 @@
 package com.aulas.cursomc.controller.exceptions;
 
+import com.aulas.cursomc.services.exceptions.AuthorizationException;
 import com.aulas.cursomc.services.exceptions.DataIntegrityException;
 import com.aulas.cursomc.services.exceptions.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -38,5 +39,11 @@ public class ControllerExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
     }
 
+    @ExceptionHandler(AuthorizationException.class)
+    public ResponseEntity<StandardError> authorization(AuthorizationException e, HttpServletRequest request){
+
+        StandardError err = new StandardError(HttpStatus.FORBIDDEN.value(), e.getMessage(), System.currentTimeMillis());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
+    }
 
 }
